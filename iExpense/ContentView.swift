@@ -45,6 +45,16 @@ struct ContentView: View {
     
     @State private var showingAddExpense = false
     
+    func amountColor(_ amount: Int) -> Color {
+        if amount <= 10 {
+            return Color.red
+        } else if amount <= 100 {
+            return Color.yellow
+        } else {
+            return Color.green
+        }
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -57,12 +67,13 @@ struct ContentView: View {
                            }
                            Spacer()
                            Text("$\(item.amount)")
+                            .foregroundColor(self.amountColor(item.amount))
                        }
                 }
             .onDelete(perform: removeItems)
             }
             .navigationBarTitle("iExpense")
-            .navigationBarItems(trailing:
+            .navigationBarItems(leading: EditButton(), trailing:
                 Button(action: {
                     self.showingAddExpense = true
                 }) {
